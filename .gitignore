@@ -196,3 +196,4 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 # VisualStudio.gitignore end ---------------------------------------------------
+/VGMTrans_WTL.exe

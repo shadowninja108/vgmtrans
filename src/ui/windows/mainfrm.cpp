@@ -18,6 +18,10 @@
 #include "VGMFileTreeView.h"
 #include "VGMFileListView.h"
 #include "VGMCollListView.h"
+#include "VGMColl.h"
+#include "VGMSeq.h"
+#include "SF2File.h"
+#include "DLSFile.h"
 #include "LogListView.h"
 #include "HexView.h"
 #include "FileFrame.h"
@@ -346,6 +350,53 @@ LRESULT CMainFrame::OnFileOpen(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCt
 		pRoot->OpenRawFile(filename);
 	}
 	return 0;
+}
+
+LRESULT CMainFrame::OnSaveAllSF2(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+  std::wstring folderpath = pRoot->UI_GetOpenDirectoryPath();
+
+  for (VGMColl* col : pRoot->vVGMColl) {
+    wstring filepath = folderpath + L"\\" + ConvertToSafeFileName(col->name) + L".sf2";
+    SF2File* sf2file = col->CreateSF2File();
+    if (sf2file != NULL) {
+      if (!sf2file->SaveSF2File(filepath))
+        pRoot->AddLogItem(new LogItem(std::wstring(L"Failed to save SF2 file"), LOG_LEVEL_ERR, L"VGMColl"));
+      delete sf2file;
+    }
+    else
+      pRoot->AddLogItem(new LogItem(std::wstring(L"Failed to save SF2 file"), LOG_LEVEL_ERR, L"VGMColl"));
+
+    if (col->seq != nullptr) {
+      filepath = folderpath + L"\\" + ConvertToSafeFileName(col->name) + L".mid";
+      if (!col->seq->SaveAsMidi(filepath))
+        pRoot->AddLogItem(new LogItem(std::wstring(L"Failed to save MIDI file"), LOG_LEVEL_ERR, L"VGMColl"));
+    }
+  }
+  return 0;
+}
+
+LRESULT CMainFrame::OnSaveAllDLS(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+  std::wstring folderpath = pRoot->UI_GetOpenDirectoryPath();
+
+  for (VGMColl* col : pRoot->vVGMColl) {
+    wstring filepath = folderpath + L"\\" + ConvertToSafeFileName(col->name) + L".dls";
+    DLSFile dlsfile;
+    if (col->CreateDLSFile(dlsfile)) {
+      if (!dlsfile.SaveDLSFile(filepath))
+        pRoot->AddLogItem(new LogItem(std::wstring(L"Failed to save DLS file"), LOG_LEVEL_ERR, L"VGMColl"));
+    }
+    else
+      pRoot->AddLogItem(new LogItem(std::wstring(L"Failed to save DLS file"), LOG_LEVEL_ERR, L"VGMColl"));
+
+    if (col->seq != nullptr) {
+      filepath = folderpath + L"\\" + ConvertToSafeFileName(col->name) + L".mid";
+      if (!col->seq->SaveAsMidi(filepath))
+        pRoot->AddLogItem(new LogItem(std::wstring(L"Failed to save MIDI file"), LOG_LEVEL_ERR, L"VGMColl"));
+    }
+  }
+  return 0;
 }
 
 LRESULT CMainFrame::OnFileSave(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)

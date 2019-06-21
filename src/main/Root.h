@@ -70,6 +70,7 @@ class VGMRoot {
   virtual void UI_AddItemSet(void *UI_specific, std::vector<ItemSet> *itemset) { }
   virtual std::wstring
       UI_GetOpenFilePath(const std::wstring &suggestedFilename = L"", const std::wstring &extension = L"") = 0;
+  virtual std::wstring UI_GetOpenDirectoryPath(const std::wstring& suggestedFilename = L"", const std::wstring& extension = L"") = 0;
   virtual std::wstring
       UI_GetSaveFilePath(const std::wstring &suggestedFilename, const std::wstring &extension = L"") = 0;
   virtual std::wstring UI_GetSaveDirPath(const std::wstring &suggestedDir = L"") = 0;

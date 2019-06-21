@@ -132,6 +132,8 @@ public:
 		MESSAGE_HANDLER(CWM_INITIALIZE, OnInitialize)
 
 		COMMAND_ID_HANDLER(ID_FILE_OPEN, OnFileOpen)
+    COMMAND_ID_HANDLER(ID_SAVE_AS_SF2, OnSaveAllSF2)
+    COMMAND_ID_HANDLER(ID_SAVE_AS_DLS, OnSaveAllDLS)
 		COMMAND_ID_HANDLER(ID_FILE_SAVE, OnFileSave)
 		COMMAND_ID_HANDLER(ID_APP_EXIT, OnFileExit)
 		//COMMAND_ID_HANDLER(ID_FILE_NEW, OnFileNew)
@@ -178,6 +180,8 @@ public:
 	LRESULT OnInitialize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 	LRESULT OnFileOpen(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+	LRESULT OnSaveAllSF2(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+  LRESULT OnSaveAllDLS(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnFileSave(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnFileExit(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	//LRESULT OnFileNew(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);

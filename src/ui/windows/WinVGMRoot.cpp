@@ -252,6 +252,24 @@ wstring WinVGMRoot::UI_GetOpenFilePath(const wstring& suggestedFilename, const w
 	return dlgFile.m_szFileName;
 }
 
+wstring WinVGMRoot::UI_GetOpenDirectoryPath(const wstring& suggestedFilename, const wstring& extension)
+{
+  CString ret;
+
+  BROWSEINFO br;
+  ZeroMemory(&br, sizeof(BROWSEINFO));
+  br.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE;
+
+  LPITEMIDLIST pidl = NULL;
+  if ((pidl = SHBrowseForFolder(&br)) != NULL)
+  {
+    wchar_t buffer[MAX_PATH];
+    if (SHGetPathFromIDList(pidl, buffer)) ret = buffer;
+  }
+
+  return ret;
+}
+
 wstring WinVGMRoot::UI_GetSaveFilePath(const wstring& suggestedFilename, const wstring& extension)
 {
 	CFileDialog dlgFile(FALSE, extension.c_str(), suggestedFilename.c_str(), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER);

@@ -52,6 +52,6 @@ class VGMColl
   void UnpackSampColl(DLSFile &dls, VGMSampColl *sampColl, std::vector<VGMSamp *> &finalSamps);
   void UnpackSampColl(SynthFile &synthfile, VGMSampColl *sampColl, std::vector<VGMSamp *> &finalSamps);
 
- protected:
+ public:
   std::wstring name;
 };
